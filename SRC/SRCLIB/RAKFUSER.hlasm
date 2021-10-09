@@ -34,8 +34,13 @@ CJYRUIDS CSECT                                                          00070000
 *                       users table RAKFUSER calls RAKFPSAV to      @02 00223602
 *                       update UDATA with the temporary password    @02 00223902
 *                       changes queued since the previous execution @02 00224202
-*                                                                   @02 00224502
-********************************************************************@02 00224802
+*    2011/04/29 RRKF003 if in-core UDATA table already exists check @03 00224502
+*                       for READ access to profile RAKFADM in the   @03 00224802
+*                       FACILITY class to ensure that only properly @03 00225103
+*                       authorized users can replace the in-core    @03 00225403
+*                       UDATA table                                 @03 00225703
+*                                                                   @03 00226003
+********************************************************************@03 00226303
 *                                                                       00230000
          SAVE   (14,12),,CJYRUIDS_&SYSDATE._&SYSTIME                    00240000
          LR     R12,R15             USE ENTRY AS BASE                   00250000
@@ -50,7 +55,14 @@ CJYRUIDS CSECT                                                          00070000
          BZ     ABEND100             Y - CJYRCVT FAILED, GO TO ABEND    00340000
          ICM    R8,B'1111',RCVTISTL-RCVT(R8) GET OUR POINTER, IS IT 0?  00350000
          BZ     ABEND100             YES, ABEND                         00360000
-         ENQ    (SECURITY,USERS,E,,SYSTEM),RET=HAVE serialization   @01 00370000
+*                                                                   @03 00360303
+         ICM    R5,B'0111',CJYUSERS-CJYRCVTD(R8) does UDATA exist?  @03 00360603
+         BZ     OK2GO                NO, go ahead                   @03 00360903
+         RACHECK ENTITY=RAKFADM,CLASS='FACILITY',ATTR=READ authorize@03 00361203
+         LTR    R15,R15             RAKFADM granted?                @03 00361503
+         BNZ    ABEND600             NO, abend                      @03 00361803
+*                                                                   @03 00362103
+OK2GO    ENQ    (SECURITY,USERS,E,,SYSTEM),RET=HAVE serialization   @03 00370000
 *                                                                   @02 00372002
          L      R15,RAKFPSAV        get password changer address    @02 00374002
          BALR   R14,R15             call it                         @02 00376002
@@ -181,6 +193,10 @@ ABEND200 ABEND  200,,STEP              Y - ABEND !                      01540000
 ABEND300 WTO    'RAKFUIDS3  EMPTY INPUT FILE ?!?!'                  @01 01560000
          WTO    'RAKFUIDSX  ** PROGRAM TERMINATED **'               @01 01570000
          ABEND  300,,STEP                                               01580000
+*                                                                   @03 01582003
+ABEND600 WTO    'RAKF008W illegal operation -- access denied'       @03 01584003
+         WTO    'RAKF008W   ** program terminated **'               @03 01586003
+         ABEND  600,,STEP                                           @03 01588003
 *                                                                       01590000
 TRTBLANK DC     XL256'00'          TABLE FOR TRT                        01600000
          ORG    TRTBLANK+C' '      BLANK                                01610000
@@ -191,6 +207,7 @@ TRTBLANK DC     XL256'00'          TABLE FOR TRT                        01600000
 CJYUDATA DCB    DDNAME=RAKFUSER,MACRF=GM,EODAD=ENDDATA,DSORG=PS         01660000
 *                                                                       01670000
 RAKFPSAV DC     V(RAKFPSAV)        password change utility          @02 01673002
+RAKFADM  DC     CL39'RAKFADM'      facility name to authorize       @03 01675003
 *                                                                   @02 01677002
 SAVEAREA DS     18F                                                     01680000
 LASTGM   DC     F'0'                                                    01690000
