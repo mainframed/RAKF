@@ -175,15 +175,15 @@ BYEBYE   MODESET MODE=PROB,KEY=NZERO   return to problem state          01340000
          RETURN (14,12),RC=0                                            01380000
 *                                                                       01390000
 ABEND100 WTO    'RAKFUIDS1  RCVT NOT PROPERLY INITIALIZED'          @01 01400000
-         WTO    'RAKFUIDSX  ** PROGRAM TERMINATED **',DESC=(2)          01410000
+         WTO    'RAKFUIDSX  ** PROGRAM TERMINATED **'               @01 01410000
          ABEND  100,,STEP                                               01420000
 *                                                                       01430000
-ABEND2   WTO    'RAKFUIDS2  INPUT DATA INVALID OR OUT OF SEQ.',DESC=(2) 01440000
+ABEND2   WTO    'RAKFUIDS2  INPUT DATA INVALID OR OUT OF SEQ.'      @01 01440000
          MVC    PASSWORD,=C'********'                                   01450000
          MVC    BADMSG+8(80),RECORD                                     01460000
 BADMSG   WTO    '                                                      X01470000
-                                           ',DESC=(2)                   01480000
-         WTO    'RAKFUIDSX  ** PROGRAM TERMINATED **',DESC=(2)          01490000
+                                           '                        @01 01480000
+         WTO    'RAKFUIDSX  ** PROGRAM TERMINATED **'               @01 01490000
          OI     TERMFLAG,TERMABND          SET TO ABEND @ TERMINATION   01500000
          LR     R4,R5                      GET LAST GM AREA ADDR AND    01510000
          B      ANYMORE                    GO CLEAN THE GM CHAIN.       01520000
