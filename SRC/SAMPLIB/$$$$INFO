@@ -1,0 +1,44 @@
+*
+*    See members $$COPYRT and $$NOTICE in this library.
+*
+**********************************************************************
+*                                                                    *
+*    RAKF is based on the ESG Security System                        *
+*    written by Craig J. Yasuna               (Mar 1991)             *
+*    adapted to MVS 3.8J: A. Philip Dickinson (Aug 2005)             *
+*                         Phil Roberts        (Apr 2011)             *
+*                         Juergen Winkelmann  (Apr 2011)             *
+*                                                                    *
+**********************************************************************
+*
+*    Member $$$$$DOC in this library is the original documentation of
+*    the ESG Security System as prepared by Sam Golob in 1991. It is
+*    retained here as a historic reference although it is no longer
+*    current in some aspects due to the changes introduced by RAKF to
+*    achieve MVS 3.8j compatibility.
+*
+*    The current RAKF documentation is the "RAKF Version 1 Release 2
+*    Modifaction 0 User's Guide" which is available in two formats:
+*
+*    o Microsoft Word 2010 .docx:        The source document ("original
+*                                        copy") and base for further
+*                                        evolutions.
+*
+*    o Portable Document Format (PDF/A): Display and printer friendly
+*                                        format intended for reading or
+*                                        printing the document using
+*                                        publicly available no-cost
+*                                        software (Adobe Acrobat Reader).
+*
+*    These two formats are available as member $DOC$ZIP in this library
+*    which is a zip archive containing the two files "Users_Guide.docx"
+*    and "Users_Guide.pdf". This member is intended to be downloaded in
+*    binary format to the user's PC using the 3270 terminal emulation's
+*    file transfer function (typically based on IND$FILE) or any other
+*    suitable method.
+*
+*    Once downloaded, the User's Guide can be extracted in the desired
+*    format (.pdf or .docx) using the PC's standard unzip utility for
+*    reading or printing using Word, Acrobat Reader or other tools
+*    compatible with these formats.
+*
