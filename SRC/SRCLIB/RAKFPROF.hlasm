@@ -24,6 +24,14 @@ CJYRPROF CSECT                                                          00110000
 *                                  EDISON, NEW JERSEY 08820          *  00240000
 *                                                                    *  00250000
 **********************************************************************  00260000
+*                                                                   @01 00260301
+*    Change History                                                 @01 00260601
+*                                                                   @01 00260901
+*    2011/04/03 TRKF120 base version                                @01 00261201
+*    2011/04/18 RRKF001 introduce change history                    @01 00261501
+*                       enable comment lines in UDATA and PDATA     @01 00261801
+*                                                                   @01 00262101
+********************************************************************@01 00262401
 *                                                                       00270000
          SAVE  (14,12),,CJYRPROF_&SYSDATE._&SYSTIME._                   00280000
          LR    R12,R15                 SETUP BASE REG.                  00290000
@@ -47,6 +55,8 @@ OK2GO    DS    0H                      NO, CONTINUE                     00420000
 READLOOP DS    0H                                                       00470000
          MVC   INRECOLD,INRECNEW       SAVE OLD I/P FOR COMPARE         00480000
          GET   CJYPDATA,INRECNEW                                        00490000
+         CLI   CLASS,C'*'              Comment?                     @01 00493001
+         BE    READLOOP                 read next record            @01 00497001
          CLC   INRECNEW(ACCAUTH-INREC),INRECOLD  NEXT REC. > PREV?      00500000
          BNH   OUTOFORD                          NO, NOT SORTED         00510000
          CLC   INRECNEW(GROUPID-INREC),INRECOLD  SAME CLASS/ENTITY?     00520000
