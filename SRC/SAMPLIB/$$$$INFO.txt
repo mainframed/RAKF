@@ -1,0 +1,113 @@
+*
+*    See members $$COPYRT and $$NOTICE in this library.
+*
+**********************************************************************
+*                                                                    *
+*    RAKF is based on the ESG Security System                        *
+*    written by Craig J. Yasuna               (Mar 1991)             *
+*    adapted to MVS 3.8J: A. Philip Dickinson (Aug 2005)             *
+*                         Phil Roberts        (Apr 2011)             *
+*                         Juergen Winkelmann  (Apr 2011)             *
+*                                                                    *
+**********************************************************************
+*
+*    The installation instructions in $$$$$DOC are not current.
+*    Installation is performed through the standard SMP4 RECEIVE,
+*    APPLY, ACCEPT procedure as outlined in member $$$$INST of this
+*    library which is also part of the installation JCL library created
+*    when running initial job RAKF12 according to the documentation
+*    accompanying the distribution tape. After installation RAKF
+*    is inactive. Member $$$$CUST of this library describes the
+*    steps to customize and activate it.
+*
+*    For information on operational aspects specific to MVS 3.8j
+*    refer to member $$$$M38J. It should be noted that usage of the
+*    ZAPs to MVS security processing outlined in $$$$M38J should be
+*    avoided by all means. They are provided as a courtesy to help
+*    in cases where RACF indication of the whole system is not feasible
+*    but they are not meant to be a permanent solution.
+*
+*    Member $$$$RMVE contains information on how to remove RAKF from
+*    the system by reinstating the standard MVS versions of SVCs 130-133
+*    and the ICHSEC00 initialization program. It should be noted, however,
+*    that deinstalling RAKF isn't a standard procedure to be performed
+*    routinely as it can lead to a total lock out from the system or
+*    even to a system being no longer IPLable. The recommended way is to
+*    let RAKF be installed and active and replace the profiles table
+*    by the minimum table MINPRF from this library. This enables ALTER
+*    access by everyone to everything and thus is equivalent to a
+*    vanilla MVS system without RAKF.
+*
+*    For information on configuring the PROFILES and USERS tables
+*    and other operational aspects of this software refer to
+*    member $$$$$DOC.
+*
+Version History
+===============
+
+ESG Security System (March 1991):
+---------------------------------
+The ESG Security System was published by Craig J. Yasuna as an alternative to
+IBM's RACF and similar products. It uses the ICHRTX00 security router exit to
+communicate it's security decisions to MVS. ICHRTX00 is a user exit of the SAF
+router ICHSFR00.
+
+RAKF "RAcK oF" Security System (August 2005):
+---------------------------------------------
+
+RAKF was published by A. Philip Dickinson as an adaption of the ESG Security
+System to MVS 3.8j. The ESG Security doesn't natively support MVS 3.8j for
+several reasons. The major ones are:
+
+o At MVS 3.8j times the SAF router ICHSFR00 was part of the RACF product and
+  thus not a available on MVS systems without RACF being installed. So the
+  ICHRTX00 exit as a convenient place for third party security products to hook
+  into the SAF didn't exist.
+
+o incompatible ACEE handling.
+
+o The ESG Security System uses the BAS instruction which is not available
+  in S/370.
+
+o ESG Security's 24/31 bit AMODE handling wasn't compatible with the usage of
+  high order address bytes for flags in MVS 3.8j.
+
+o incompatible parameter lists of RACROUTE, RACDEF, RACHECK and RACINIT.
+
+o handling of in core profiles incompatible with MVS's VSAM catalog management.
+
+Phil D. converted ESG Security's ICHRTX00 router exit into an ICHSFR00 SAF
+router to overcome the first major incompatibility. He also solved the next two
+points and in parts the 24/31 bit AMODE issues. The rest remained undetected
+when he published his work and caused several problems when using RAKF on
+MVS 3.8j:
+
+o Arbitrary 0C4 abends during RACINIT and RACDEF processing. The most
+  severe of these abends is the "initiator blowout" mentioned in
+  http://tech.groups.yahoo.com/group/H390-MVS/message/10015.
+
+o Arbitrary 0C4 abends and FREEMAIN errors during RACHECK processing
+  of VSAM catalogs and objects. These problems are discussed in
+  http://tech.groups.yahoo.com/group/H390-MVS/message/11811.
+
+o Arbitrary invalid authorization decisions: Access denied if it
+  should have been granted and access granted if it should have been
+  denied. The latter in a way that with some trial and error any user
+  is able to acquire ALTER access to any dataset in the system.
+
+RAKF 1.2.0 (April 2011):
+------------------------
+
+When the above mentioned problems became visible and identified as being
+RAKF caused in several MVS 3.8j environments it turned out that Phil D's RAKF
+source wasn't accessible any more (lost in a package crate from moving). Phil
+Roberts ("halfmeg") stepped in and reconstructed the source by disassembling
+Phil D's binary RAKF distribution and comparing it with the original source of
+the ESG Security System. Based on that reconstructed source the rest of the
+incompatibilities listed above were identified and corrected by Juergen
+Winkelmann.
+
+To avoid another loss of the source to occur an additional effort has been made
+to clean up the source to a publishable state and to provide an SMP4 compatible
+source distribution enabling RAKF installation through the well known SMP 4
+standard RECEIVE, APPLY, ACCEPT procedure.

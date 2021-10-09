@@ -1,0 +1,77 @@
+                    RAKF 1.2.0 Installation Instructions
+                    ====================================
+
+This document describes the steps to install RAKF 1.2.0.
+
+The installation is performed through the standard SMP RECEIVE, APPLY and
+ACCEPT procedure. The process has been tested with SMP level 04.48 which
+is the level provided by the Turnkey 3 MVS system. This presumably is equivalent
+to having PTFs UR13349, UR15994, UR17644 and UR19590 applied. Tests have
+shown that APPLY processing doesn't work reliably at lower levels: For
+example at level 04.44 APPLY doesn't assemble and link all modules. So
+before starting please update your SMP as close to level 04.48 as possible.
+
+1. Edit jobs A@PREP, C@APPLY and D@ACCPT:
+
+   o change all occurances of HLQ to the desired high level qualifier
+     for the RAKF libraries, e.g. RAKF, RAKF.V1R2M0, etc. Please note
+     that HLQs where HLQ.SAMPLIB, HLQ.ASAMPLIB, HLQ.APROCLIB, HLQ.APARMLIB
+     HLQ.MACLIB, HLQ.AMACLIB, HLQ.SRCLIB or HLQ.ASRCLIB already exist
+     are not recommended.
+   o change all occurances of dddddd to the desired volume for the
+     RAKF distribution libraries.
+   o change all occurances of ssssss to the desired volume for the
+     RAKF target libraries.
+   o change all occurances of tttt to the device type and all occurances
+     of rrrrrr to the volume of the sysres device where SYS1.LPALIB and
+     SYS1.LINKLIB of the system reside on which RAKF is to be installed.
+     (If you are running TK3 MVS and install on your current system the
+     device type is 3350 and the volume is MVSRES.)
+
+   Verify that in jobs C@APPLY and D@ACCPT the sequence of the SYSLIB and
+   the target and distribution library DD statements matches your
+   SMPAPP and SMPACC procedures. The jobs have been tested with the
+   SMP procedures as defined in Volker's MVS TK3 system. If the sequence
+   of DD statements in the SMP procedures in your system doesn't match
+   the sequence of the overriding DD statements in C@APPLY and D@ACCPT
+   RAKF elements may erroneously be placed in SYS1.ASAMPLIB, SYS1.SAMPLIB,
+   SYS1.APROCLIB, SYS1.APARMLIB, SYS1.AMACLIB or SYS1.MACLIB instead of
+   their HLQ.xxxxLIB counterparts.
+
+2. Submit job A@PREP. This job performs the following actions to prepare
+   your system for RAKF 1.2.0 installation:
+
+   o Delete MODs and LMODs that are defined in MVS 3.8j as placeholders for
+     RACF modules from SMP's target and distribution zones.
+   o Delete the placeholder modules as well as potentialy installed
+     pre RAKF 1.2.0 modules from SYS1.LINKLIB and SYS1.LPALIB.
+   o Allocate RAKF 1.2.0 target and distribution libraries.
+
+3. Receive RAKF by submitting job B@RECV. Be prepared to mount the RAKF
+   distribution tape rakf12.aws after submitting the job.
+
+4. Apply RAKF by submitting job C@APPLY.
+
+5. Accept RAKF by submitting job D@ACCPT. This step can be skipped if
+   you don't want to accept the sysmod now. It is, however, strongly
+   recommended to accept it as only then it will be possible to "test
+   drive" updates that might be published later and to return to the
+   previous state in case of problems.
+
+6. Perform an IPL CLPA of your system. The system will come up with all
+   RAKF elements installed but without activating RAKF. Successful
+   installation can be verified from the RAKF banner being displayed
+   at the beginning of the IPL and by checking the system's SVC table
+   for example using menu option T in IMON and scroll forward to the
+   RACF SVCs (130 - 133) which should show entries like this:
+
+   130 82 00EAEB30 3/4        RACHECK    -RACF IGC00130 RAKF  mm/dd/yy
+   131 83 00EAEB52 3/4 YES    RACINIT    -RACF IGC0013A RAKF  mm/dd/yy
+   132 84 00EAEB74 3/4 YES    RACLIST    -RACF ICHRIN00 DUMMY mm/dd/yy
+   133 85 00EAEB9A 3/4 YES    RACDEF     -RACF IGC0013C RAKF  mm/dd/yy
+
+   where mm/dd/yy is RAKF's installation date.
+
+7. Consult member $$$$CUST in HLQ.SAMPLIB for information on how
+   to customize and activate RAKF and member $$$$INFO for various
+   other aspects around RAKF usage and background informations.

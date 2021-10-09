@@ -1,0 +1,5 @@
+DASDVOL *                                                   ALTER       00010000
+DATASET *                                                   ALTER       00020000
+FACILITY*                                                   ALTER       00030000
+TAPEVOL *                                                   ALTER       00040000
+TERMINAL*                                                   ALTER       00050000
