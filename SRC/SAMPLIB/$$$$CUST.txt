@@ -4,17 +4,47 @@
 This document describes the steps to customize and activate RAKF 1.2.0
 after the basic SMP4 installation has been completed.
 
-1. Allocate a PDS named SYS1.SECURE.CNTL (LRECL=80). This PDS will
-   contain 2 members:
+1. a) Allocate a PDS named SYS1.SECURE.CNTL (LRECL=80). This PDS will
+      contain 2 members:
 
-   o USERS:    The RAKF users table
-   o PROFILES: The RAKF profiles table
+      o USERS:    The RAKF users table
+      o PROFILES: The RAKF profiles table
 
-   If you've already allocated this library in an earlier version of
-   RAKF you can continue to use it. The name of the library has to be
-   SYS1.SECURE.CNTL. Although it could be changed this has to be done
-   in several locations and will for the sake of simplicity not be outlined
-   in these instructions.
+      If you've already allocated this library in an earlier version of
+      RAKF you can continue to use it. The name of the library has to be
+      SYS1.SECURE.CNTL. Although it could be changed this has to be done
+      in several locations and will for the sake of simplicity not be outlined
+      in these instructions.
+
+   b) Allocate a sequential dataset named SYS1.SECURE.PWUP with
+      LRECL=18 and RECFM=F (fixed records of 18 bytes, no blocking).
+      This dataset serves as a queue: User initiated password changes
+      are saved here until the next run of RAKFUSER integrates them into
+      the RAKF users table.
+
+      If you've already allocated this dataset in an earlier version of
+      RAKF you can continue to use it. The name of the dataset has to be
+      SYS1.SECURE.PWUP. Although it could be changed this has to be done
+      in several locations and will for the sake of simplicity not be outlined
+      in these instructions.
+
+   Note: During the process of adapting the profiles and users tables
+   ====  to meet your security requirements (step 6) special attention
+         to the protection of the datasets created in step 1 should be
+         payed:
+
+         o SYS1.SECURE.CNTL: started tasks and the user(s) and/or group(s)
+                             responsible for RAKF administration need UPDATE
+                             access to this dataset.
+         o SYS1.SECURE.PWUP: started tasks need UPDATE access to this dataset.
+
+         As both datasets contain clear text passwords normal users shouldn't be
+         allowed any access to them. An easy way to protect these datasets is
+         to define a dataset profile SYS1.SECURE.* with universal access NONE
+         and selectively allow the RAKF administrator user(s)/group(s) UPDATE
+         access to this profile. If the standard setup is used started tasks
+         have operations authority and thus don't need to be explicitely
+         allowed.
 
 2. If you're a first time RAKF user copy the following members from
    HLQ.SAMPLIB to SYS1.SECURE.CNTL:
@@ -67,6 +97,8 @@ after the basic SMP4 installation has been completed.
    //RAKFPROF DD DSN=SYS1.SECURE.CNTL(PROFILES),
    //            DISP=SHR
    //RAKFUSER DD DSN=SYS1.SECURE.CNTL(USERS),
+   //            DISP=SHR
+   //RAKFPWUP DD DSN=SYS1.SECURE.PWUP,
    //            DISP=SHR
 
    Member ZJW0003 of HLQ.SAMPLIB provides a sample USERMOD accomplishing this.

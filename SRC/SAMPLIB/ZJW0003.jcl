@@ -22,6 +22,8 @@
          DC    CL80'//            DISP=SHR'                             04870011
          DC    CL80'//RAKFUSER DD DSN=SYS1.SECURE.CNTL(USERS),'         04870012
          DC    CL80'//            DISP=SHR'                             04870013
+         DC    CL80'//RAKFPWUP DD DSN=SYS1.SECURE.PWUP,'                04870014
+         DC    CL80'//            DISP=SHR'                             04870015
 /*
 //SMPCNTL  DD  *
  REJECT  SELECT(ZJW0003)
