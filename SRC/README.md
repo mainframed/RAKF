@@ -492,7 +492,7 @@ Therefore, with MVS 3.8j one has to make sure that “critical” programs
 cannot be executed by unauthorized users through other means. The following
 solutions might be feasible on a case by case basis:
 
-***Programs that need to call a specific SVC for successful execution: ***
+***Programs that need to call a specific SVC for successful execution:***
 
 Introduce a profile in the FACILITY class and have that SVC verify the
 caller’s authorization against this profile. This method can only be used, if
@@ -514,7 +514,7 @@ distributed with RAKF. If you are running a Tur(n)key MVS system having the
 unsecured version of this SVC installed, it is strongly recommended to replace
 it by installing the usermod in Appendix D.
 
-***Programs with source code available: ***
+***Programs with source code available:***
 
 Introduce a profile in the FACILITY class and have the program verify the
 caller's authorization against this profile. This method of course provides a
