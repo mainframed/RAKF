@@ -1,4 +1,8 @@
 #!/binbash
+
+# Bash script to create the SMP4 job stream for RAKF
+# This will install RAKF only
+
 cat << 'END'
 //RAKFPREP JOB (RAKF),
 //             'RAKF Installation',
@@ -6,8 +10,13 @@ cat << 'END'
 //             MSGCLASS=A,
 //             REGION=8192K,
 //             MSGLEVEL=(1,1)
+//* *******************************************************************
+//* Installs RAKF 1.2.6
+//*
+//* This JCL was generated from makesmp.sh
+//*
 //* ------------------------------------------------------------------*
-//* Prepare system for RAKF 1.2.0 installation                        *
+//* Prepare system for RAKF 1.2.6 installation                        *
 //*                                                                   *
 //* Expected return codes: Step UCLIN:  00                            *
 //*                        Step LIBS:   00                            *
@@ -82,10 +91,6 @@ cat << 'END'
    SCRATCH VOL=3350=MVSRES,DSNAME=SYS1.LPALIB,MEMBER=IGC0013{
    SCRATCH VOL=3350=MVSRES,DSNAME=SYS1.LPALIB,MEMBER=ICHRIN00
    SCRATCH VOL=3350=MVSRES,DSNAME=SYS1.LINKLIB,MEMBER=ICHSEC00
-   SCRATCH VOL=3350=MVSRES,DSNAME=SYS1.LINKLIB,MEMBER=RAKFPROF
-   SCRATCH VOL=3350=MVSRES,DSNAME=SYS1.LINKLIB,MEMBER=RAKFUSER
-   SCRATCH VOL=3350=MVSRES,DSNAME=SYS1.LINKLIB,MEMBER=RAKFPWUP
-   SCRATCH VOL=3350=MVSRES,DSNAME=SYS1.LINKLIB,MEMBER=RAKFINIT
 /*
 //* ------------------------------------------------------------------*
 //* SMP receive of RAKF 1.2.6                                         *
@@ -96,7 +101,7 @@ cat << 'END'
 END
 
 echo "++FUNCTION(TRKF126)."
-echo "++VER(Z038)."
+echo "++VER(Z038) SUP(RRKF006)."
 echo "++JCLIN."
 cat JCLIN/*.jcl
 
@@ -177,15 +182,15 @@ cat << 'END'
 //         DD
 //         DD
 //         DD
-//         DD  DISP=SHR,DSN=SYSGEN.RAKF.V1R2M0.AMACLIB
-//AMACLIB  DD  DISP=SHR,DSN=SYSGEN.RAKF.V1R2M0.AMACLIB
-//APARMLIB DD  DISP=SHR,DSN=SYSGEN.RAKF.V1R2M0.APARMLIB
-//APROCLIB DD  DISP=SHR,DSN=SYSGEN.RAKF.V1R2M0.APROCLIB
-//ASAMPLIB DD  DISP=SHR,DSN=SYSGEN.RAKF.V1R2M0.ASAMPLIB
-//MACLIB   DD  DISP=SHR,DSN=SYSGEN.RAKF.V1R2M0.MACLIB
-//SAMPLIB  DD  DISP=SHR,DSN=SYSGEN.RAKF.V1R2M0.SAMPLIB
-//ASRCLIB  DD  DISP=SHR,DSN=SYSGEN.RAKF.V1R2M0.ASRCLIB
-//SRCLIB   DD  DISP=SHR,DSN=SYSGEN.RAKF.V1R2M0.SRCLIB
+//         DD  DISP=SHR,DSN=SYSGEN.RAKF.V1R2M6.AMACLIB
+//AMACLIB  DD  DISP=SHR,DSN=SYSGEN.RAKF.V1R2M6.AMACLIB
+//APARMLIB DD  DISP=SHR,DSN=SYSGEN.RAKF.V1R2M6.APARMLIB
+//APROCLIB DD  DISP=SHR,DSN=SYSGEN.RAKF.V1R2M6.APROCLIB
+//ASAMPLIB DD  DISP=SHR,DSN=SYSGEN.RAKF.V1R2M6.ASAMPLIB
+//MACLIB   DD  DISP=SHR,DSN=SYSGEN.RAKF.V1R2M6.MACLIB
+//SAMPLIB  DD  DISP=SHR,DSN=SYSGEN.RAKF.V1R2M6.SAMPLIB
+//ASRCLIB  DD  DISP=SHR,DSN=SYSGEN.RAKF.V1R2M6.ASRCLIB
+//SRCLIB   DD  DISP=SHR,DSN=SYSGEN.RAKF.V1R2M6.SRCLIB
 //SMPCNTL  DD  *
  ACCEPT S(TRKF126) DIS(WRITE) .
 /*
