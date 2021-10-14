@@ -1,1 +1,0 @@
-IBMUSER  ADMIN    NONE     Y                                            00010000

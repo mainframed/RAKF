@@ -1,5 +1,0 @@
-HERC01   ADMIN    NONE     Y                                            00010000
-HERC02   ADMIN    CUL8TR   Y                                            00020000
-HERC03   USER     NONE     N                                            00030000
-HERC04   USER     PASS4U   N                                            00040000
-IBMUSER  ADMIN    NONE     Y                                            00050000
