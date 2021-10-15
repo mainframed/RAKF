@@ -124,7 +124,7 @@ CVTSAF   EQU   248 CVTSAF doesn't exist but is a reserved field in 3.8J
         .
 /*
 //*
-//RAK00015   EXEC SMPAPP,COND=(0,NE),WORK='SYSALLDA'
+//RAK00015   EXEC SMPAPP,WORK='SYSALLDA'
 //SMPCNTL  DD  *
   APPLY
         SELECT(RAK0001)
