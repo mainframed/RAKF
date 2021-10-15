@@ -11,13 +11,13 @@
 //* Requires BREXX V2R5M0 or greater
 //*
 //********************************************************************
-//LISTUCAT EXEC PGM=IDCAMS
+//LISTUCTL EXEC PGM=IDCAMS
 //SYSPRINT DD DSN=&&UCAT,DISP=(,PASS),UNIT=VIO,SPACE=(TRK,(1,1))
 //SYSIN    DD *
  LISTCAT UCAT
 /*
 //********************************************************************
-//UCATREXX EXEC PGM=IEBGENER
+//UCTREXXL EXEC PGM=IEBGENER
 //SYSPRINT DD SYSOUT=*
 //SYSIN DD DUMMY
 //SYSUT1    DD *
@@ -59,7 +59,7 @@ say ''
 //SYSUT2   DD DSN=&&RXCAT,DISP=(,PASS),UNIT=VIO,
 //            SPACE=(TRK,(5,5))
 //********************************************************************
-//LISTREXX EXEC PGM=IEBGENER
+//LISTREXL EXEC PGM=IEBGENER
 //SYSPRINT DD SYSOUT=*
 //SYSIN DD DUMMY
 //SYSUT1    DD *
@@ -118,7 +118,7 @@ say ''
 //            SPACE=(TRK,(5,5))
 //* **********************************************************
 //* CHANGE RACF BELOW TO NORACF TO REMOVE RACF INDICATOR
-//EXECCAT  EXEC PGM=BREXX,PARM='RXRUN',REGION=8192K
+//EXECCTL  EXEC PGM=BREXX,PARM='RXRUN',REGION=8192K
 //RXRUN    DD   DSN=&&RXCAT,DISP=SHR
 //RXLIB    DD   DSN=BREXX.V2R5M0.RXLIB,DISP=SHR
 //STDIN    DD   DUMMY
@@ -128,13 +128,13 @@ say ''
 //STDOUT   DD   SYSOUT=*,DCB=(RECFM=FB,LRECL=140,BLKSIZE=5600)
 //STDERR   DD   SYSOUT=*,DCB=(RECFM=FB,LRECL=140,BLKSIZE=5600)
 //* **********************************************************
-//LISTCAT  EXEC PGM=IDCAMS
+//LISTCTL  EXEC PGM=IDCAMS
 //SYSIN    DD DSN=&&CATS,DISP=(OLD,DELETE)
 //* SYSPRINT DD SYSOUT=*
 //SYSPRINT DD DSN=&&LIST,DISP=(,PASS),UNIT=VIO,SPACE=(TRK,(5,5))
 //* **********************************************************
 //* CHANGE RACF BELOW TO NORACF TO REMOVE RACF INDICATOR
-//EXECCAT  EXEC PGM=BREXX,PARM='RXRUN',REGION=8192K
+//EXCCTL2  EXEC PGM=BREXX,PARM='RXRUN',REGION=8192K
 //RXRUN    DD   DSN=&&RXPRSE,DISP=SHR
 //RXLIB    DD   DSN=BREXX.V2R5M0.RXLIB,DISP=SHR
 //STDIN    DD   DUMMY

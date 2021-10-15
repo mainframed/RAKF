@@ -87,7 +87,7 @@ do i=1 to indata.0
         if cat = catalog then iterate
         say "CATALOG   " cat
         catalog = cat
-        entries.e = "CATALOG   " cat
+        entries.e = "CATALOG   "||cat
         e = e + 1
     end
     if index(indata.i, 'CLUSTER ') > 0 then do
@@ -111,7 +111,7 @@ do i=1 to indata.0
                 if racf = 'ON' then r = "RACON     "
                 else r = "RACOFF    "
                 say r entry
-                entries.e = r entry
+                entries.e = r||entry
                 e = e + 1
             end
         end
@@ -122,6 +122,11 @@ e = e - 1
 entries.0 = e
 
 "EXECIO * DISKW OUTDD (STEM entries. FINIS"
+
+if rc > 0 then do
+    say "(T_T) Error writting OUTDD:" rc
+    exit 1
+end
 
 say "*** Done"
 say ''
@@ -146,7 +151,7 @@ say ''
 //SYSPRINT DD DSN=&&LIST,DISP=(,PASS),UNIT=VIO,SPACE=(TRK,(5,5))
 //* **********************************************************
 //* CHANGE ON BELOW TO OFF TO REMOVE RACF INDICATOR
-//EXECCAT  EXEC PGM=BREXX,PARM='RXRUN ON',REGION=8192K
+//EXECCAT2 EXEC PGM=BREXX,PARM='RXRUN ON',REGION=8192K
 //RXRUN    DD   DSN=&&RXPRSE,DISP=SHR
 //RXLIB    DD   DSN=BREXX.V2R5M0.RXLIB,DISP=SHR
 //STDIN    DD   DUMMY
@@ -155,6 +160,12 @@ say ''
 //        DCB=(LRECL=80,BLKSIZE=800,RECFM=FB)
 //STDOUT   DD   SYSOUT=*,DCB=(RECFM=FB,LRECL=140,BLKSIZE=5600)
 //STDERR   DD   SYSOUT=*,DCB=(RECFM=FB,LRECL=140,BLKSIZE=5600)
+//* **********************************************************
+//LISTRACI EXEC PGM=IEBGENER
+//SYSPRINT DD SYSOUT=*
+//SYSIN    DD DUMMY
+//SYSUT1   DD DSN=&&RACIND,DISP=SHR
+//SYSUT2   DD SYSOUT=*
 //* **********************************************************
 //* execute RACIND utility to set or unset RACF indicators
 //*
