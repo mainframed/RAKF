@@ -374,7 +374,7 @@ read as follows:
 
 | Column  | Description                                               |
 |:-------:|:----------------------------------------------------------|
-|  1 -  8 | Facility title: (DASDVOL, DATASET, FACILITY, etc¹         |
+|  1 -  8 | Facility title: DASDVOL, DATASET, FACILITY, etc¹          |
 |  9 - 52 | Dataset Name, or Generic Name (using asterisk '*')        |
 | 53 - 60 | User Group Id (Installation defined)²                     |
 | 61 - 66 | Permission Level (NONE, READ, UPDATE, ALTER)              |
