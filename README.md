@@ -757,6 +757,7 @@ also made:
 - Removed the requirement to use tape/XMI files
 - Removed xmi/ptf JCL and other SAMPLIB items
 - Moved SAMPLIB folder to TOOLS
+- Updated `RACIND.hlasm` to check if RAKF is installed and if not to skip RACHECK, this is helpful for installing before RAKF is enabled.
 
 ## Appendix A - Generating your own release
 
