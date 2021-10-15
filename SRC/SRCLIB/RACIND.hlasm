@@ -47,10 +47,19 @@ RACIND   CSECT                                                          00020000
 SAVEAREA DS    18F                 savearea                             00470000
 CONTINUE OPEN  (SYSIN,(INPUT))     open control statement dataset       00480000
          OPEN  (SYSPRINT,(OUTPUT)) open output dataset                  00490000
+* IF RAKF ISNT INSTALLED SKIP RACHECK                            @SOF21 00491000
+         L     R1,CVTPTR           get CVT address               @SOF21 00492000
+         ICM   R1,B'1111',CVTSAF(R1) SAFV defined ?              @SOF21 00493000
+         BZ    JUSTDOIT            no RAC, skip check            @SOF21 00494000
+         USING SAFV,R1             addressability of SAFV        @SOF21 00495000
+         CLC   SAFVIDEN(4),SAFVID  SAFV initialized ?            @SOF21 00496000
+         BNE   JUSTDOIT            no RAC, skip check            @SOF21 00497000
+         DROP  R1                  SAFV no longer needed         @SOF21 00498000
+* ************                                                   @SOF21 00499000
          RACHECK ENTITY=RAKFADM,CLASS='FACILITY',ATTR=READ authorize    00500000
          LTR    R15,R15            RAKFADM granted?                     00510000
          BNZ    NOAUTH              no, talk dirrty and exit            00520000
-         MODESET MODE=SUP,KEY=ZERO authorize ourselves                  00530000
+JUSTDOIT MODESET MODE=SUP,KEY=ZERO authorize ourselves                  00530000
          LA    R12,PL              address CTGPL                        00540000
          USING CTGPL,R12           tell assembler                       00550000
          LA    R11,FL              address CTGFL                        00560000
@@ -248,6 +257,8 @@ SYSIN    DCB   DDNAME=SYSIN,MACRF=GM,DSORG=PS,EODAD=DONE,              X02470000
                LRECL=80,RECFM=FB,BLKSIZE=800      control statements    02480000
 SYSPRINT DCB   DDNAME=SYSPRINT,MACRF=PM,DSORG=PS,                      X02490000
                LRECL=132,RECFM=FB,BLKSIZE=1320    messages              02500000
+SAFVID   DC    CL4'SAFV'           SAFV eye catcher              @SOF21 02501000
+CVTSAF   EQU   248 CVTSAF doesn't exist but is a reserved field in 3.8J 02502000
          LTORG ,                   all literals go here                 02510000
 *                                                                       02520000
 * equates                                                               02530000
@@ -258,4 +269,6 @@ SYSPRINT DCB   DDNAME=SYSPRINT,MACRF=PM,DSORG=PS,                      X02490000
 *                                                                       02580000
          IEZCTGPL                  catalog parameter list               02590000
          IEZCTGFL                  catalog field parameter list         02600000
+         CVT   DSECT=YES           map CVT                       @SOF21 02601000
+         ICHSAFV  DSECT=YES        map SAFV                      @SOF21 02602000
          END   RACIND              end of program                       02610000
