@@ -1,4 +1,4 @@
-NO
+YES
 /* control RAKF initialization:                                      */
 /* YES -- initialize RAKF                                            */
 /* NO  -- don't initialize RAKF                                      */
