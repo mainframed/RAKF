@@ -93,11 +93,17 @@ ESY1400   /* SYSTEM MODIFICATION PROGRAM 4                */
              UR13349 UR15994 UR17644 UR19590
 ```
 
-The JCL needed to install RAKF and all its components is located under this
-repos releases and is automatically generated using the scripts in the
-`scripts` folder.
+A JCL jobstream to install RAKF and all its components is located under this
+repos releases and is automatically generated using `generate_release.py` 
+python script. This script can optionally take one of two arguments:
+- `--users` use a custom users file instead of the default `users.txt`
+- `--profiles` use a custom users file instead of the default `profiles.txt`
 
-Download the latest release and submit the job in MVS either with the socket
+To just install RAKF itself without any thing else you can use the script
+`makerakf.sh` located in the `TEMPLATES` folder.
+
+You can also download the latest release (automatically generated using 
+`generate_release.py` and submit the job in MVS either with the socket
 reader `cat install_rakf.jcl|ncat --send-only -w1 127.0.0.1 3505` or by
 uploading the JCL and submitting in TSO.
 
