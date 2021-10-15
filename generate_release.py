@@ -102,7 +102,7 @@ smp_dict = {
 folders = ["MACLIB", "SRCLIB", "PROCLIB", "PARMLIB"]
 
 for folder in folders:
-    fileList = os.listdir(folder)
+    fileList = os.listdir("{}/{}".format(running_folder,folder))
 
     for filename in fileList:
         print(smp_dict[folder].format(filename.split(".")[0]))
