@@ -4,8 +4,8 @@ import os
 import argparse
 
 arg_parser = argparse.ArgumentParser()
-arg_parser.add_argument('-u', '--users', help="Custom users file", default='users.txt')
-arg_parser.add_argument('-p', '--profiles', help="Custom profiles file", default='profiles.txt')
+arg_parser.add_argument('-u', '--users', help="Custom users file", default=False)
+arg_parser.add_argument('-p', '--profiles', help="Custom profiles file", default=False)
 args = arg_parser.parse_args()
 
 
@@ -69,14 +69,22 @@ def make_rakfcust(jclfile):
                 find_end = False
                 f.write(line + "\n")
                 if 'SYSUT1' in line and not users:
-                    with open(running_folder + "/" + args.users, 'r') as users:
+                    if not args.users:
+                        users_file = "{}/{}".format(running_folder, args.users)
+                    else:
+                        users_file = args.users
+                    with open( users_file, 'r') as users:
                         # RAKF expects things to be sorted words before numbers
                         # users_sorted = sorted(users.read().strip().split('\n'),key=test)
                         f.write("{}{}".format(users.read().strip(),"\n"))
                     users = True
                     find_end = True
-                elif 'SYSUT1' in line and not done:
-                    with open(running_folder + "/" + args.profiles, 'r') as profiles:
+                elif 'SYSUT1' in line and users and not done:
+                    if not args.profiles:
+                        profiles_file = "{}/{}".format(running_folder, args.profiles)
+                    else:
+                        profiles_file = args.profiles
+                    with open(profiles_file, 'r') as profiles:
                     # profiles_sorted = sorted(profiles.read().strip().split('\n'), key=test)
                         f.write("{}{}".format(profiles.read().strip(),"\n"))
                     done = True
