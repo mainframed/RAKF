@@ -99,13 +99,15 @@ python script. This script can optionally take one of two arguments:
 - `--users` use a custom users file instead of the default `users.txt`
 - `--profiles` use a custom users file instead of the default `profiles.txt`
 
-To just install RAKF itself without any thing else you can use the script
-`makerakf.sh` located in the `TEMPLATES` folder.
-
-You can also download the latest release (automatically generated using 
-`generate_release.py` and submit the job in MVS either with the socket
-reader `cat install_rakf.jcl|ncat --send-only -w1 127.0.0.1 3505` or by
+You can generate the latest release using `python3 generate_release.py` 
+which creates a jobstream of all the steps needed and prints it. You can
+save this output to a file using `python3 generate_release.py > install_rakf.jcl`.
+Then you can submit the job to MVS either with the socket
+reader: `cat install_rakf.jcl|ncat --send-only -w1 127.0.0.1 3505` or by
 uploading the JCL and submitting in TSO.
+
+To install RAKF only, without usermods, auxiliary tools, users or profiles you can use
+the file `TEMPLATES/makerakf.sh` which generates the JCL to assemble and link RAKF.
 
 ## Customization
 
