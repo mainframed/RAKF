@@ -1,3 +1,12 @@
+# :warning::warning::warning::warning::warning::warning::warning::warning::warning::warning: :warning::warning::warning::warning::warning::warning::warning::warning::warning::warning:
+
+# This repo is archived, all changes will be tracked in https://github.com/MVS-sysgen/RAKF and this repo is in read only mode
+
+# :warning::warning::warning::warning::warning::warning::warning::warning::warning::warning: :warning::warning::warning::warning::warning::warning::warning::warning::warning::warning:
+
+
+-----------------------
+
 # RAKF Version 1 Release 2 Modification 6
 
 A Security System for MVS 3.8j
